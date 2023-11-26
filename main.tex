@@ -1,0 +1,59 @@
+\documentclass[12pt]{report}
+\usepackage{graphicx} % Required for inserting images
+\linespread{1.2}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage[breakable]{tcolorbox}
+
+\tikzstyle{mybox} = [draw=RoyalBlue, fill=RoyalBlue!5, ultra thick, rectangle, rounded corners, inner sep=10pt, inner ysep=15pt, text width=0.90\textwidth, align=left] 
+\tikzstyle{boxtitle} = [fill=RoyalBlue, text=SkyBlue!30, ultra thick, rectangle, rounded corners, inner sep=10pt, inner ysep=8pt, text width=0.90\textwidth]
+
+\newcommand{\BoxDef}[2]{%
+\vspace*{10px}
+\noindent
+
+\begin{center}
+\begin{tikzpicture}
+    \node[mybox](box){\rule{0pt}{30pt}\ignorespaces#2\unskip};
+    \node[boxtitle, anchor=north west] at (box.north west) {\textbf{#1}};
+\end{tikzpicture}
+\end{center}
+
+}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=3cm, centering]{geometry}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\begin{document}
+
+\begin{titlepage}
+\hrule
+\vspace{15pt}
+\begin{center}
+    \Huge{\textbf{\Huge \textbf{Machine Learning 23-24}} \\ Notes}\\
+\end{center}
+\vspace{15pt}
+\hrule
+\vfill
+\hrule
+\begin{center}
+    \Large University of Pisa \\ M.Sc. in Computer Science
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+
+\input{Intro}
+\input{Linear and k-nn models}
+\input{Neural Networks}
+\input{Validation}
+\input{Support Vector Machines}
+\input{Bias, Variance, and Ensembling}
+
+\end{document}
