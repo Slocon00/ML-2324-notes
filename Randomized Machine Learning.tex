@@ -1,0 +1,19 @@
+\chapter{Randomized Machine Learning}
+
+Randomness can be seen as an effective part of Machine Learning approaches. It can enhance different aspects, such as data processing, learning, hyper-parameter selection, and so on. It can both enhance predictive performance and alleviate difficulties of classical ML methodologies.
+
+Randomness can also be exploited to reduce the training needed for a MLP/RNN, by implementing \textbf{randomized neural networks} (or \textbf{random weights neural network}). The network is constructed with randomly connected hidden layers with fixed weights. The training involves only the output weights, overcoming the problems associated with the typical training algorithms used for neural networks. The general architecture of a randomized NN is defined by two components:
+
+\begin{itemize}
+    \item The hidden layer (untrained, randomly initialized). It linearly embeds the input into a high-dimensional feature space where the problem is more likely to be solved linearly.
+
+    \item The readout layer (trained). It combines the features in the hidden space for output computation.
+\end{itemize}
+
+\textbf{Cover's theorem} states: ``a complex pattern-classification problem, cast in a high-dimensional space nonlinearly, is more likely to be linearly separable than in a low dimensional space, provided that the space is not densely populated''.
+
+\section{Pros and Cons}
+
+A large set of hidden units can provide a sufficient ``basis expansion'' to project the non-linearly separable data into an higher dimension, and is also extremely efficient at doing so.
+
+On the other hand, focused models with a smaller number of adaptive units trained on the specific task at hand wiill appear more ``elegant''.
