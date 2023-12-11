@@ -1,0 +1,87 @@
+\chapter{Self-Organizing Maps}
+
+Unsupervised Learning includes all tasks in which there is no teacher to assign labels to examples. The training set is a set of unlabeled data $<x_i>$. Typical unsupervised learning tasks include clustering, dimensionality reduction, and modeling data density. One advantage of unlabeled data is that it's cheaper to obtain compared to labeled data. In this chapter, we will see an historical NN model called \textbf{Self-Organizing Maps} (or \textbf{Kohonen Maps}) capable of solving unsupervised learning tasks. 
+
+\section{Clustering}
+
+The goal of clustering is to find subsets of data points that are connected to each other through some form of similarity. Points within a cluster are more similar to each other than any point belonging to a different cluster. Each cluster has a \textbf{centroid}, which corresponds to the mean of all points in that cluster.
+
+There's different ways to define similarity among points. One popular measure is Euclidean distance, but it's just one of many possible measures.
+
+\textbf{Vector quantization} is a set of techniques aimed at encoding a data manifold $V \subseteq \mathbb{R}^n$ using only a finite set of vectors $w = (W_1,\dots,w_k) \,, w_i \in \mathbb{R}^n$, called reference (or codebook) vectors. A data vector $x \in V$ is described by the best-matching (``winning'') reference vector $w_{i^*(x)}$ for which the distortion error $d(x, w_{i^*(x)})$ is minimal. The manifold is therefore divided into a number of sub-regions:
+\begin{equation*}
+    V_i = \{ x \in V : \|x - w_i\| \leq \|x - w_j\| \forall j \}
+\end{equation*}
+called \textbf{Voronoi polyhedra}, out of which each data vector $x$ is described by the corresponding reference vector $w_{i^*(x)}$. Computing the optimal Voronoi diagram is an NP-complete problem.
+
+The idea is to use vector quantization for clustering tasks. A clustering can be seen as an optimal partitioning of the data into regions (clusters) approximated by a reference (centroid). The distortion error is calculated by the chosen similarity measure. The average value of the distortion error over the distribution of inputs is the average quantization error; this will be the loss function. Below is the loss function both in the continuous and the discrete version. The symbol $w$ is used for reference vectors.
+\begin{equation*}
+    E = \int f(d(x, w_{i^*(x)})) p(x) dx = \int \|x - w_{i^*(x)}\|^2 p(x) dx
+\end{equation*}
+\begin{equation*}
+    E = \sum_i^l \sum_j^k \|x_i - w_j \|^2 \delta_{win}(i,j)
+\end{equation*}
+$\delta_{win}(i,j)$ is equal to 1 if $j$ is the winner for $i$, 0 otherwise.
+
+\subsection{K-means}
+
+K-means is one learning algorithm used for clustering. This section will present the on-line version of the algorithm; the following is its pseudocode:
+\begin{enumerate}
+    \item Choose $k$ cluster centers to coincide with $k$ randomly selected points in the hypervolume containing the pattern set.
+
+    \item Assign each pattern to the winner cluster center (centroids).
+
+    \item Recompute the centroids using the current cluster members.
+
+    \item If the convergence criterion is not met, repeat from step 2.
+\end{enumerate}
+
+Given the cluster centers $w_1, \dots w_k$, for each $x$ the winner is the nearest prototype:
+\begin{equation*}
+    i^*(x) = \arg \min_i \|x - w_i\|^2 \,,
+\end{equation*}
+then, for each cluster $i$, the new centroid is calculated as:
+\begin{equation*}
+    w_i = \dfrac{1}{|cluster_i|} \sum_{j : x_j \in cluster} x_j \,.
+\end{equation*}
+
+This algorithm is popular because it's easy to implement and is generally efficient. One drawback is that $k$, the number of clusters to partition the data into, must be provided by the user. K-means is good for finding globular clusters, but cannot separate irregularly shaped clusters.
+
+The local minima of the loss function depend on the initialization. To avoid confinement to local minima, a common approach is to introduce a \textbf{soft-max} adaptation rule: not only the winning centroid is updated, but all other centroids as well, in an amount that's inversely proportional to their proximity to the current $x$. An instance of this strategy in neural networks is \textbf{Kohonen self-organizing maps}.
+
+\subsection{Self-Organizing Maps}
+
+Self-organizing map neural networks consist of $N$ neurons located on a regular low-dimensional (usually 2D) lattice. Each unit corresponds to a coordinate on the map, each unit receives the same input $x$, and has a weight $w$. SOMs learn a topology preserving map from input space to a lattice of neural units. Topology preserving means that neighboring units will respond to similar input patterns, and data points close in the input space are mapped onto the same (or to different but close) map units. SOMs can be used for many different tasks, such as clustering, pattern recognition and vector quantization, data compression, projection and exploration, and so on.
+
+\textbf{Competitive learning} is an adaptive process in which neurons gradually become specialized to different sets of samples. This competition makes it so that the winner is allowed to learn more than the other neurons.
+
+The pseudocode for the SOM learning algorithm is the following:
+\begin{enumerate}
+    \item Randomly initialize the map (i.e., randomly initialize the weights).
+
+    \item Draw a sample input $x$.
+
+    \item Competitive stage: the winner is the unit with the $w$ most similar to $x$.
+
+    \item Cooperative stage: upgrade the weight of all the units with topological relationships (on the map) with the winner unit using the soft-max adaptation rule.
+\end{enumerate}
+Note that the soft-max rule here updates neurons close on the map, not in the data space.
+
+In the \textbf{competitive stage}, the current input vector $x$ is compared with all the unit weights using Euclidean distance. The winner is chosen as
+\begin{equation*}
+    i^*(x) = \arg \min_i \|x - w_i\|^2 \,.
+\end{equation*}
+
+In the \textbf{cooperative stage}, the weight of the winning unit and the weight of all units in its neighborhood are moved closer to the input vector:
+\begin{equation*}
+    w_i(t+1) = w_i(t) + \eta (t) h_{i,i^*(x)}(t)[x - w_i(t)] \,,
+\end{equation*}
+where $h(t)$ is the neighborhood function/kernel, i.e., it decreases monotonically for increasing $\|i-j\|$:
+\begin{equation*}
+    h_{i,i^*(x)}(t) = exp(-\dfrac{\|r_i - r_{i^*}\|^2}{2 \sigma_{nh}^2 (t)}) \,.
+\end{equation*}
+The learning rate $\eta$ and the radius value $\sigma$ are decreased as a function of iteration $t$; the neighborhood is wide at the beginning and gradually shrinks during learning. In practice, the shape of the neighborhood is chosen from a standard geometrical shape, to include a finite set of the map units.
+
+The update rule of the cooperative stage is fundamental to the formation of topologically ordered maps. The weights are not modified independently of each other but as topologically related subsets. At each update, the subset is selected on the basis of the neighborhood of the winning unit.
+
+After training, the map can be used to visualize different features of the SOM and the data represented on the map, such as the density of the reference vectors and the distance between reference vectors of neighboring units.
