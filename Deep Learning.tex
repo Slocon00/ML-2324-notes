@@ -87,7 +87,7 @@ An example of such function is the parity function: it returns 1 if there is an 
 \end{equation*}
 gates, since we have to perform 1 OR and exactly $2^{N-1}$ ANDs.
 
-We can propose an alternative solution with a polynomial number of gates, by increasing the number of layers to $log(N)$. The solution for $N=8$ is shown below (in a simplified view where each XOR corresponds to 3 AND gates and 1 OR gate). In this solution, the number of gates is greatly reduced from $2^7 + 1 = 129$ to only $7 * 3 = 21$.
+We can propose an alternative solution with a polynomial number of gates, by increasing the number of layers to $log(N)$. The solution for $N=8$ is shown below (in a simplified view where each XOR corresponds to 2 AND gates and 1 OR gate). In this solution, the number of gates is greatly reduced from $2^7 + 1 = 129$ to only $7 * 3 = 21$.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\linewidth]{img/Circuit_deep.png}
