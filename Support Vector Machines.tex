@@ -11,7 +11,7 @@ Assume a classification task. Given a training set $TR = <x_i,d_i>, \, i=1 \dots
     w^T x_i + b < 0 \text{ for } d_i = -1
 \end{gather*}
 
-$g(x) = w^T x + b$ is called the \textbf{discriminant function}, and $h(x) = sign(g(x))$ is the hypothesis. Note that here the bias is referred to as $b$ instead of $w_0$. To find the hyperplane that separates all the points, instead of simply minimizing the empirical risk, the SVM minimizes the expected generalization error by finding the separator that is farthest away from all the examples in the dataset. It also establishes a margin ($\rho$) around it, whose width is exactly twice the distance between the hyperplane and the closest data point(s). The optimal hyperplane is the one that maximizes this margin $\rho$: $w_o^Txv + b_o = 0$, where $\rho = 2 / \|w_o|$.
+$g(x) = w^T x + b$ is called the \textbf{discriminant function}, and $h(x) = sign(g(x))$ is the hypothesis. Note that here the bias is referred to as $b$ instead of $w_0$. To find the hyperplane that separates all the points, instead of simply minimizing the empirical risk, the SVM minimizes the expected generalization error by finding the separator that is farthest away from all the examples in the dataset. It also establishes a margin ($\rho$) around it, whose width is exactly twice the distance between the hyperplane and the closest data point(s). The optimal hyperplane is the one that maximizes this margin $\rho$: $w_o^Txv + b_o = 0$, where $\rho = 2 / \|w_o\|$.
 
 The two terms $w$ and $b$ can be rescaled so that the closest points to the separating hyperplane satisfy $\|g(x)\| = 1$, so we can write:
 
@@ -55,7 +55,6 @@ satisfying the constraints
     d_i(w^T x_i + b) \geq 1 \, .
 \end{equation*}
 }
-
 The objective function $\Psi (w)$ is quadratic and convex in $w$. The constraints are linear in $w$, and solving the problem scales with the size of the input space $m$.
 
 To solve this problem, the \textbf{Lagrangian multipliers method} is used. The Lagrangian function corresponding to the quadratic optimization problem is constructed:
@@ -66,12 +65,12 @@ where $\alpha_i \geq 0$ are the \textbf{Lagrangian multipliers}. Each term in th
 
 If we minimize $J$ with respect to $w$, then:
 \begin{gather*}
-    \dfrac{\partial J}{\partial w} = \dfrac{2}{2} w - \sum_{i=1}^N \alpha_i(d_i(w^T x_i + 0) + 0) = \\
-    = w - \sum_{i=1}^N \alpha_i(d_i(w^T x_i)) = 0
+    \dfrac{\partial J}{\partial w} = \dfrac{2}{2} w - \sum_{i=1}^N \alpha_i(d_i(1*x_i + 0) + 0) = \\
+    = w - \sum_{i=1}^N \alpha_i(d_i(x_i)) = 0
 \end{gather*}
 so
 \begin{equation*}
-    w = \sum_{i=1}^N \alpha_i(d_i(w^T x_i)) \, .
+    w = \sum_{i=1}^N \alpha_i(d_i(x_i)) \, .
 \end{equation*}
 Thus the optimal hyperplane is expressed as:
 \begin{gather*}
@@ -106,23 +105,21 @@ satisfying the constraints
     \sum_{i=1}^N \alpha_i d_i = 0 \, .
 \end{gather*}
 }
-
 The value of $\alpha_i$ can be found by solving the quadratic programming (QP) problem, or by more recent and efficient approaches (such as sequential minimal optimization (SMO)). Solving this problem scales with the number of training examples, less with the dimensionality. To find $w_o$ and $b_o$, we proceed as follows:
 \begin{gather*}
     w_o = \sum_{i=1}^N \alpha_{o,i} d_i x_i \\
     b_o = 1 - w_o^T x^{(s)} = 1 - \sum_{i=1}^N \alpha_{o,i} d_i x_i^T x^{(s)} \, .
 \end{gather*}
-
 How do we use all of this? We don't actually need to explicitly know $w_o$. All we need are calculating the Lagrangian multipliers by solving the dual problem, and then calculating $b_o$. So, given the input pattern $x$, we compute $g(x) = \sum_{i=1}^N \alpha_{o,i} d_i x_i^T x + b_o$, and classify it as $h(x) = sign(g(x))$. Minimizing the norm of $w$ is equivalent to minimizing the VC-dim and VC-confidence of the model.
 
 \BoxDef{Theorem - Vapnik}{
 Let $D$ be the diameter of the smallest ball around the data points $x_1 , \dots , x_N$. For the class of separating hyperplanes described by the equation $w^T x + b = 0$, the upper bound to the VC-dim is
 \begin{equation*}
-    VC \leq min(\lceil \dfrac{D^2}{\rho^2} \rceil, m_0) + 1
+    VC \leq min(\lceil \dfrac{D^2}{\rho^2} \rceil, m_0) + 1 \,,
 \end{equation*}
+where $m_0$ indicates the dimensionality of the input space.
 }
-
-Since $D^2 / \rho^2 = Radios^2 \|w\|^2$, VC can be less than $m_0 + 1$ computed for general hyperplanes by costraining the search to the ``regularized'' one with maximum margin.
+Since $D^2 / \rho^2 = Radios^2 \|w\|^2$, VC can be less than $m_0 + 1$ computed for general hyperplanes by constraining the search to the ``regularized'' one with maximum margin.
 
 This approach of finding optimal separating hyperplane maximizing the margin also provides:
 \begin{itemize}
@@ -131,7 +128,6 @@ This approach of finding optimal separating hyperplane maximizing the margin als
     \item The use of a solver in the class of constrained quadratic programming (instead of gradient descent) with a nice dual form;
     \item A solution focused on a selection of training data points: the support vectors.
 \end{itemize}
-
 But what about noisy or non linearly separable data?
 
 \section{Soft Margin SVM}
@@ -161,7 +157,7 @@ satisfying the constraints
     \xi_i \geq 0 \,, \forall i = 1, \dots N
 \end{gather*}
 }
-The term $C$ is a user-defined regularization hyperparameter; so this version of SVM is no longer ``automatic'' like hard margin SVM was. $C$ is found as the tradeoff between empirical risk minimization and capacity term (VC-confidence). If $C$ is too low, we allow many training errors, leading to underfitting. If $C$ is too high, we don't let any training error, leading to oerfitting.
+The term $C$ is a user-defined regularization hyperparameter; so this version of SVM is no longer ``automatic'' like hard margin SVM was. $C$ is found as the trade-off between empirical risk minimization and capacity term (VC-confidence). If $C$ is too low, we allow many training errors, leading to underfitting. If $C$ is too high, we don't let any training error, leading to overfitting.
 
 \BoxDef{Quadratic optimization problem with Soft Margin (dual form)}{
 Given the training examples $TR = < x_i,d_i >$, find the optimal values of $\alpha_i$ which maximize
@@ -177,21 +173,19 @@ satisfying the constraints
 The Kuhn-Tucker conditions can be redefined as:
 \begin{gather*}
     \alpha_i (d_i (w^T x_i + b) + \xi_i - 1) = 0 \, , \forall i = 1, \dots , N \\
-    \mu_i \xi_i = 0 \, , \forall i = 1, \dots , N \, ,
+    \mu_i \xi_i = 0 \,, \forall i = 1, \dots , N \, ,
 \end{gather*}
-where $\mu_i$ are Lagrange multipliers introduced to enforce non-negativity of the slack variables in the primal function.
-
-To solve the problem, we again solve the dual problem with respect to $\alpha_i$, and calculate $w_o$ and $b_o$ exactly as before.
+where $\mu_i$ are Lagrange multipliers introduced to enforce non-negativity of the slack variables in the primal function. If $0 < \alpha_i < C$, then $\xi_i = 0$. If $\alpha = C$, then $\xi_i \geq 0$. To solve the problem, we again solve the dual problem with respect to $\alpha_i$, and calculate $w_o$ and $b_o$ exactly as before.
 
 \section{Mapping To a High-dimensional Space}
 
 \href{https://en.wikipedia.org/wiki/Cover%27s_theorem#The_Theorem}{If the TR set represents a non-linearly separable problem, the data points can be mapped from the input space to a high-dimensional \textbf{feature space}, where they are linearly separable}. The approach we follow is analogous to the LBE for linear models. We define some function $\phi : \mathbb{R}^{m_0}\xrightarrow{} \mathbb{R}^{m_1}$. Finding this function, however, is not always easy, unless we have some prior knowledge allowing us to select the proper feature space. Also, using high dimensional feature spaces can lead to overfitting.
 
-Once we chose a function:
+Given this function, we map all points to the new feature space: $x \mapsto \phi(x)$. The problem is formulated as before, with a new training set $TR = < \phi(x_i),d_i >$, and a new hyperplane $g(x) = w^T \phi(x) + b = 0$. The notation used here incorporates the bias in the weight vector, with $w_0 = b$ and $\phi_0(x) = 1$:
 \begin{equation*}
-    \phi(x) = (\phi_0(x) = 1, \phi_1(x), \dots , \phi_{m_1}(x))
+    \phi(x) = (\phi_0(x) = 1, \phi_1(x), \dots , \phi_{m_1}(x))^T
 \end{equation*}
-we map all points to the new feature space: $x \mapsto \phi(x)$. The problem is formulated as before, with a new training set $T = < \phi(x_i),d_i >$, and a new hyperplane $g(x) = w^T \phi(x) + b = 0$. Note that the notation above incorporates the bias in the weight vector, with $w(0) = b$ and $\phi_0(x) = 1$. The weight vector is now a linear combination of the feature vectors:
+The weight vector is now a linear combination of the feature vectors:
 \begin{equation*}
     w = \sum_{i=1}^N \alpha_i d_i \phi(x_i)
 \end{equation*}
@@ -209,7 +203,6 @@ This function is known as the \textbf{inner product kernel function}. It's also 
     x_1^2y_1^2 + 2x_1y_1x_2y_2 + x_2^2y_2^2 = (x_1y_1 + x_2y_2)^2 = \\
     ((x_1,x_2)(y_1,y_2)^T)^2 = (x^Ty)^2 = k(x,y)
 \end{gather*}
-
 We can arrange the dot products in the feature space between the img of the input training patterns in a $N$ by $N$ matrix, called \textbf{kernel matrix}:
 \begin{equation*}
     K = \begin{pmatrix}
@@ -222,7 +215,7 @@ We can arrange the dot products in the feature space between the img of the inpu
 \end{equation*}
 The kernel matrix is symmetrical, as the inner product kernel is symmetrical. Not every kernel function computes the inner product in a feature space; this property holds only for kernels gaining positive semi-definite kernel matrices. This is related to the matrix having non negative Eigenvalues.
 
-Given $k_1$ and $k_2$ both kernels over $\mathbb{R}^{m_0} \times \mathbb{R}^{m_1}$. The following are also kernel functions:
+Given $k_1$ and $k_2$ both kernels over $\mathbb{R}^{m_0} \times \mathbb{R}^{m_0}$. The following are also kernel functions:
 \begin{itemize}
     \item $k_1(x,y) + k_2(x,y)$;
     \item $\alpha k_1(x,y) \, \forall \alpha \in \mathbb{R}_+$;
@@ -246,7 +239,7 @@ satisfying the constraints
 \BoxDef{Quadratic optimization problem in feature space (dual form)}{
 Given the training examples $TR = < \phi(x_i),d_i >$, find the optimal values of $\alpha_i$ which maximize
 \begin{equation*}
-    Q(\alpha) = \sum_{i_1}^N \alpha_i - \dfrac{1}{2}\sum_{i,j=1}^N \alpha_i \alpha_j d_i d_j k(x_i,x_j)
+    Q(\alpha) = \sum_{i=1}^N \alpha_i - \dfrac{1}{2}\sum_{i,j=1}^N \alpha_i \alpha_j d_i d_j k(x_i,x_j)
 \end{equation*}
 satisfying the constraints
 \begin{gather*}
@@ -256,7 +249,7 @@ satisfying the constraints
 }
 Remember that C is a user specified non-negative  regularization hyperparameter.
 
-To classify an unseen input pattern $x$ using the machine we trained, we compute $\sum_i \alpha_i d_i k(x, x_i)$, and then classify $x$ as $h(x) = sign(d_i k(x, x_i))$. Note: we have to memorize the $x_i$ in the training set for the test phase.
+To classify an unseen input pattern $x$ using the machine we trained, we compute $\sum_i \alpha_i d_i k(x, x_i)$, and then classify $x$ as $h(x) = sign(\sum_{i=1}^n \alpha_i d_i k(x, x_i))$. Note: we have to memorize the $x_i$ in the training set for the test phase.
 
 Some examples of commonly used kernels include:
 \begin{itemize}
@@ -269,7 +262,7 @@ For the first two kernels, we always get an inner product kernel, but for a two-
 
 \section{SVMs For Nonlinear Regression}
 
-Earlier, we defined a regression task by specifying that the TR set contains a number of inputs and corresponding labels. Each label $d_i = f(x) + v$, i.e., it's equal to the output value of the (unknown) target function plus a certain noise disturbance. This noise term $v$ is statistically independent from $x$.
+Earlier, we defined a task by specifying that the TR set contains a number of inputs and corresponding labels. Each label $d_i = f(x) + v$, i.e., is equal to the output value of the (unknown) target function plus a certain noise disturbance. This noise term $v$ is statistically independent from $x$.
 
 To estimate the regression output $y$ using a linear expansion of non-linear functions:
 \begin{equation*}
@@ -322,7 +315,6 @@ satisfying the following constraints
     0 \leq \alpha_i' \leq C
 \end{gather*}
 }
-
 Again, solving the dual problem gives us the best values of $\alpha_i$ and $\alpha_i'$, and then we compute the weight vector:
 \begin{equation*}
     w = \sum_{i=1}^N (\alpha_i - \alpha_i')\phi(x_i) \iff w = \sum_{i=1}^N \gamma_i \phi(x_i)

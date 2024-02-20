@@ -8,7 +8,7 @@ The goal of clustering is to find subsets of data points that are connected to e
 
 There's different ways to define similarity among points. One popular measure is Euclidean distance, but it's just one of many possible measures.
 
-\textbf{Vector quantization} is a set of techniques aimed at encoding a data manifold $V \subseteq \mathbb{R}^n$ using only a finite set of vectors $w = (W_1,\dots,w_k) \,, w_i \in \mathbb{R}^n$, called reference (or codebook) vectors. A data vector $x \in V$ is described by the best-matching (``winning'') reference vector $w_{i^*(x)}$ for which the distortion error $d(x, w_{i^*(x)})$ is minimal. The manifold is therefore divided into a number of sub-regions:
+\textbf{Vector quantization} is a set of techniques aimed at encoding a data manifold $V \subseteq \mathbb{R}^n$ using only a finite set of vectors $w = (w_1,\dots,w_k) \,, w_i \in \mathbb{R}^n$, called reference (or codebook) vectors. A data vector $x \in V$ is described by the best-matching (``winning'') reference vector $w_{i^*(x)}$ for which the distortion error $d(x, w_{i^*(x)})$ is minimal. The manifold is therefore divided into a number of sub-regions:
 \begin{equation*}
     V_i = \{ x \in V : \|x - w_i\| \leq \|x - w_j\| \forall j \}
 \end{equation*}
@@ -19,7 +19,7 @@ The idea is to use vector quantization for clustering tasks. A clustering can be
     E = \int f(d(x, w_{i^*(x)})) p(x) dx = \int \|x - w_{i^*(x)}\|^2 p(x) dx
 \end{equation*}
 \begin{equation*}
-    E = \sum_i^l \sum_j^k \|x_i - w_j \|^2 \delta_{win}(i,j)
+    E = \sum_{i=1}^l \sum_{j=1}^k \|x_i - w_j \|^2 \delta_{win}(i,j)
 \end{equation*}
 $\delta_{win}(i,j)$ is equal to 1 if $j$ is the winner for $i$, 0 otherwise.
 
@@ -35,7 +35,6 @@ K-means is one learning algorithm used for clustering. This section will present
 
     \item If the convergence criterion is not met, repeat from step 2.
 \end{enumerate}
-
 Given the cluster centers $w_1, \dots w_k$, for each $x$ the winner is the nearest prototype:
 \begin{equation*}
     i^*(x) = \arg \min_i \|x - w_i\|^2 \,,
@@ -78,7 +77,7 @@ In the \textbf{cooperative stage}, the weight of the winning unit and the weight
 \end{equation*}
 where $h(t)$ is the neighborhood function/kernel, i.e., it decreases monotonically for increasing $\|i-j\|$:
 \begin{equation*}
-    h_{i,i^*(x)}(t) = exp(-\dfrac{\|r_i - r_{i^*}\|^2}{2 \sigma_{nh}^2 (t)}) \,.
+    h_{i,i^*(x)}(t) = exp(-\dfrac{\|r_i - r_{i^*}\|^2}{2 \sigma_{nh}^2 (t)}) \,,
 \end{equation*}
 where $r_i$ and $r_{i^*(x))}$ are the coordinates of the units on the lattice.
 

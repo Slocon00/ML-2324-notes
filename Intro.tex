@@ -8,7 +8,7 @@ The most common framework in ML is to construct \textbf{predictive models} capab
 
 A simple example might be recognizing handwritten numbers. The model is presented with some real-life data (pictures of numbers written on paper), and then approximates a function capable of recognizing numbers out of pictures never seen before. 
 
-\section{Components of a Model}
+\section{Components of a Predictive System}
 
 A predictive system can be broken down into the following key components:
 
@@ -38,7 +38,7 @@ The data represents the available facts. Can be either flat (attribute-value lan
 It is often useful to \textbf{encode} the data. Structured data is a complex data structure, such as a list, tree, graph, multi-relational data, etc.
 
 \BoxDef{Noise}{
-Noise is the addition of external factors to the stream of information caused by randomness in measurements (which are never always 100\% accurate)
+Noise is the addition of external factors to the stream of information caused by randomness in measurements (which are never always 100\% accurate).
 }
 
 \BoxDef{Outliers}{
@@ -60,7 +60,6 @@ The task defines the purpose of the application: what information do we want to 
     \item \textbf{Find}: a "good" approximation of $f$, called \textbf{hypothesis} \bm{$h$}, that can be used on unseen data to predict its value according to $f$ (= is able to \textbf{generalize}).
 \end{itemize}
 }
-
 \textbf{Unsupervised learning} is defined the same as the above, but the input data is a TR of unlabeled data.
 
 
@@ -71,10 +70,9 @@ The task defines the purpose of the application: what information do we want to 
     If the number of classes is 2, the task is binary classification. Otherwise, it's a multi-class problem.
 
     \item \textbf{Regression}: estimate a real-value function on the basis of a finite set of (noisy) examples.
-
-    \item *and more*
 \end{itemize}
 }
+These are the two most common supervised tasks. Some other tasks will be seen later.
 
 \subsection{Model}
 
@@ -84,9 +82,7 @@ Many models exist as of today: linear models, symbolic rules, probabilistic mode
 
 \subsection{Learning Algorithm}
 
-Given data, task, and model, the learning algorithm executes an \textbf{heuristic search} in the hypotheses space H, in order to find the "best" hypothesis that approximates the target function. By "best", we mean the function with the \textbf{minimum error}.
-
-In order to setup a model, we must make assumptions about the target function, regarding either/both:
+Given data, task, and model, the learning algorithm executes an \textbf{heuristic search} in the hypotheses space H, in order to find the ``best'' hypothesis that approximates the target function. By ``best'', we mean the function with the \textbf{minimum error}. In order to setup a model, we must make assumptions about the target function, regarding either/both:
 
 \begin{itemize}
     \item Constraints in the model: \textbf{language bias};
@@ -94,9 +90,7 @@ In order to setup a model, we must make assumptions about the target function, r
 \end{itemize}
 
 To explain why such biases are needed, an example is presented.
-We want to approximate a boolean function $f$, and we are given a certain number of examples, each of $n$ features, and paired to a label (the output, 0/1).
-
-If we want to search for the best approximation of $f$, we would have to search throughout all the boolean functions in the hypotheses space H; the dimension of H is $2^{2^n}$ ($2$ = number of possible outputs, $2^n$ = number of possible inputs). Even if we found a function that matched the examples, it would be essentially \textbf{incapable of generalizing}: if the learner receives an input it already saw, it can classify it, otherwise it can't produce an output (it's essentially a lookup table). 
+We want to approximate a boolean function $f$, and we are given a certain number of examples, each of $n$ features, and paired to a label (the output, 0/1). If we want to search for the best approximation of $f$, we would have to search throughout all the boolean functions in the hypotheses space H; the dimension of H is $2^{2^n}$ ($2$ = number of possible outputs, $2^n$ = number of possible inputs). Our function would be essentially \textbf{incapable of generalizing}: if the learner receives an input it already saw, it can classify it, otherwise it can't produce an output (it's a simple lookup table). 
 
 \begin{center}
     \vspace{5mm}
@@ -110,7 +104,6 @@ For example: let us use conjunctive rules to express the hypotheses (functions c
 \BoxDef{Consistency and version space}{
 An hypothesis $h$ is \textbf{consistent} with a training set TR if $h(x)=d$ for each training example $<x,d>$ in TR. The set of all hypotheses in H consistent with a TR is called \textbf{version space (VS)} (can also be referred to as \bm{$VS_{H,TR}$}).
 }
-
 Many algorithms exist that can perform a complete search in the hypotheses space H, as in, that are capable of identifying the version space with respect to a TR. However, when using language biases, the restriction of the hypotheses space may be excessive, with the risk of excluding the target function: e.g., referring to the previous example, any rule that uses disjunction (OR operator) would be excluded from the search altogether.
 
 The other approach is to instead use a language capable of expressing all possible hypotheses, and introduce a search bias, using an incomplete search strategy. 
@@ -118,8 +111,7 @@ The other approach is to instead use a language capable of expressing all possib
 \BoxDef{Loss and error}{
 In order to measure the "goodness" of an hypothesis $h$, an inner measure is used, called the \textbf{loss function (or loss measure)}: \bm{$L(h(x),d)$}. The expected value of $L$ is called the \text{error} relative to $h$.
 }
-
-The loss function and the error can be calculated in any different ways depending on tasks. The following list presents some commonly used loss and error functions ("$w$" in the error function refers to the vector of parameters that identify that specific $h$).
+The loss function and the error can be calculated in any different ways depending on tasks. The following list presents some commonly used loss and error functions (``$w$'' in the error function refers to the vector of parameters that identify that specific $h$).
 
 \begin{itemize}
     \item \textbf{Regression}: predicting a numerical value.
@@ -139,7 +131,7 @@ The loss function and the error can be calculated in any different ways dependin
                                     1 & \text{otherwise}
                                 \end{cases}$
                                     
-    \textbf{E}: $E(h_w) = $ mean over the data set providing \% of misclassified patterns
+    \textbf{E}: $E(h_w) = $ mean loss over the data set providing \% of misclassified patterns
 
     \item \textbf{Clustering}: partitioning data in clusters, each approximated by a centroid/ prototype.
 
@@ -151,7 +143,7 @@ The loss function and the error can be calculated in any different ways dependin
 
     \item \textbf{Density estimation}: estimating density from an assumed class.
 
-    \textbf{H}: set of density funcs.
+    \textbf{H}: set of density functions.
 
     \textbf{L}: $L(h(x_p), d_p) = -\ln{h(x_p)}$
 
@@ -205,12 +197,12 @@ Function $\epsilon$ is called \textbf{VC-confidence} and is defined so that it i
 
     \item \textbf{If VC-dim is low}: $\epsilon$ is low but $R_{emp}$ is high, model may be too simple $\xrightarrow{}$ \textbf{underfitting}.
 \end{itemize}
-
 The goal now is to minimize this bound by finding the best trade-off between model complexity and fitting of training data.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\linewidth]{img/Illustration-of-the-Structural-Risk-Minimization-Principle.png}
+    \caption{Graphical visualization of how generalization error and training error vary as the VC-dim of the model changes.}
 \end{figure}
 
 \subsection{Validation}
@@ -227,11 +219,10 @@ Among the different techniques, two simple ones are hold-out cross validation an
 
 With hold-out cross validation, the entire available dataset is divided into three partitions: the training set TR, the validation set VL, and the test set TS. TR is used to run the training algorithm; VL is used to select the best model; TS is used to measure the quality of the final model.
 
-Simple hold-out cross validation can make insufficient use of data. An alternative method is called k-fold cross validation. The dataset $D$ is split into $k$ partitions, $D_1, D_2, ..., D_k$. The training algorithm uses $D/D_i$, and then the validation/test phase is done by using $D_i$. This way all the data is used for both training and validation/testing.
-
-The main issues in using this method are choosing the value of $k$, and the fact that's pretty computationally expensive.
+Simple hold-out cross validation can make insufficient use of data. An alternative method is called k-fold cross validation. The dataset $D$ is split into $k$ partitions, $D_1, D_2, ..., D_k$. The training algorithm uses $D/D_i$, and then the validation/test phase is done by using $D_i$. This way all the data is used for both training and validation/testing. The main issues in using this method are choosing the value of $k$, and the fact that's pretty computationally expensive.
 
 \paragraph{Confusion Matrix}
+The performance of a classifier can be represented using four counts (True Positives, True Negatives, False Positives, False Negatives), and calculating evaluation measures that summarize the information provided by these counts. The most common measures are:
 
 \begin{itemize}
     \item \textbf{Specificity}: $\dfrac{TN}{FP + TN}$
@@ -246,5 +237,6 @@ The main issues in using this method are choosing the value of $k$, and the fact
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\linewidth]{img/Screenshot 2023-10-04 alle 21.11.26.png}
+    \caption{Confusion matrix.}
 \end{figure}
 

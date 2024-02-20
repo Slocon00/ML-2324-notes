@@ -11,12 +11,12 @@ The simplest form of regression, with one input variable $x$, and one output var
     h_w(x) = w_1 x + w_0
 \end{equation*}
 
-where $w_0$ and $w_1$ are real-valued coefficients (or parameters/weights). This hypothesis corresponds to a simple line. Learning such a function with LMS (least mean squares) means finding the $w$ that minimize the residual sum of squares; i.e., find $argmin_w E(w)$ in $L_2$ (where $E(w) = \frac{1}{l}\sum_{p=1}^l (y_p - h_w(x_p))^2$).
+where $w_0$ and $w_1$ are real-valued coefficients (or parameters/weights). This hypothesis corresponds to a simple line. Learning such a function with LMS (least mean squares) means finding the $w$ that minimize the residual sum of squares; i.e., find $\arg\min_w E(w)$ in $L_2$ (where $E(w) = \frac{1}{l}\sum_{p=1}^l (y_p - h_w(x_p))^2$).
 
 In order to find such value of $w$, we must find the local minimum of the error function, corresponding to the point where the gradient is equal to 0:
 
 \begin{equation*}
-    \dfrac{\partial E(w)}{\partial w_i} = 0, i = 1, ..., n+1
+    \dfrac{\partial E(w)}{\partial w_i} = 0, \ i = 0, \dots, n
 \end{equation*}
 For the univariate case, $w$ has dimension = 2, so we must search the value of $w$ such that:
 
@@ -269,7 +269,7 @@ Its inductive bias is assuming that we can use the distance between points to es
 
 \subsection{1-Nearest Neighbor}
 
-The simplest possible algorithm. All the training data $TR = <x_p, y_p>$ is stored. Once an input $x$ is received, it finds the nearest neighbor, i.e., the point $x_i$ such that $argmin_i d(x, x_i)$. The distance can be calculated in many different ways (typically euclidean distance). The output for $x$ will be $y_i$, the target value of $x_i$.
+The simplest possible algorithm. All the training data $TR = <x_p, y_p>$ is stored. Once an input $x$ is received, it finds the nearest neighbor, i.e., the point $x_i$ such that $\arg \min_i d(x, x_i)$. The distance can be calculated in many different ways (typically euclidean distance). The output for $x$ will be $y_i$, the target value of $x_i$.
 
 This learning algorithm produces a model with no training error, producing decision boundaries that are not linear. Obviously, this leads to overfitting, so the solution is to somewhat increase the training error in order to lessen the generalization error.
 
@@ -291,17 +291,17 @@ The output for classification is calculated by majority voting. For a binary cla
 \end{equation*}
 or, in the case of multiple classes:
 \begin{equation*}
-    h(x) = argmax_v \sum_{x_i \in N_k(x)} 1_{v,y_i} \, ,
+    h(x) = \arg \max_v \sum_{x_i \in N_k(x)} 1_{v,y_i} \, ,
 \end{equation*}
 \begin{equation*}
     1_{v,y_i} = \begin{cases}
-        1 & v > y_i \\
+        1 & v = y_i \\
         0 & else
     \end{cases}
 \end{equation*}
 The model implicitly uses a \textbf{Voronoi diagram}.
 
-A variant can be used with \textbf{weighted distances}: we may want to add weights to the constribution given by neighbors (i.e. closer neighbors influence the output more than farther ones). So the output for regression is calculated as:
+A variant can be used with \textbf{weighted distances}: we may want to add weights to the contribution given by neighbors (i.e. closer neighbors influence the output more than farther ones). So the output for regression is calculated as:
 
 \begin{equation*}
     h(x) = \frac{1}{k}\sum_{x_i \in N_k(x)} \dfrac{y_i}{d(x,x_i)^2} \, ,
@@ -309,13 +309,13 @@ A variant can be used with \textbf{weighted distances}: we may want to add weigh
 while the one for classification as:
 
 \begin{equation*}
-    h(x) = argmax_v \sum_{x_i \in N_k(x)}  \dfrac{1_{v,y_i}}{d(x,x_i)^2}
+    h(x) = \arg \max_v \sum_{x_i \in N_k(x)}  \dfrac{1_{v,y_i}}{d(x,x_i)^2}
 \end{equation*}
 
 The main issue in constructing such a model lies in choosing the value of $k$. As seen before, if $k$ is too small, there's overfitting. If $k$ is too big, then both training and generalization errors increase, leading to underfitting.
 
 \subsubsection{Bayes Error Rate}
-A Bayes classifier is a learner that uses Bayes' rule to evaluate the most probable output. To find the optimal solution for a classifier, since we know the density $P(x,y)$ (unrealistic situation), we classify to the most probable class: $h(x) = argmax_v P(v|x)$. The error rate of the optimal classifier is called the \textbf{Bayes rate}. It corresponds to the minimum achievable error rate given the distribution of the data.
+A Bayes classifier is a learner that uses Bayes' rule to evaluate the most probable output. To find the optimal solution for a classifier, since we know the density $P(x,y)$ (unrealistic situation), we classify to the most probable class: $h(x) = \arg \max_v P(v|x)$. The error rate of the optimal classifier is called the \textbf{Bayes rate}. It corresponds to the minimum achievable error rate given the distribution of the data.
 
 The K-NN classifier approximates this solution, except that the conditional probability looking at all the data is relaxed to a conditional probability that only refers to a neighborhood of the point, and the actual probability density is unknown.
 

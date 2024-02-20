@@ -1,0 +1,47 @@
+\chapter{Structured Domain Learning}
+
+Structured Domain Learning concerns all learning tasks that involve structured data, i.e., data represented with complex structures such as sequences, trees, graphs, multi-relational data, and so on. Feature based and adjacent matrix representations are incomplete for structured data; so instead of forcing a specific representation, the goal is to learn a mapping between a Structured Domain of information and a (discrete or continuous) space that is equivalent to performing a regression or classification task.
+
+\section{Transductions}
+
+The mapping that matches each information object to a point in a discrete/continuous space is called \textbf{transduction}. Imagine we're given a training set of graphs (for example, representations of molecules), each paired with a corresponding regression value of class label, in the form $(graph_i, target_i)$. The goal is to find the transduction $T$ such that $T(graph)$ returns the point in the space that corresponds to the ``correct'' output.
+
+A transduction on a graph can be either \textbf{Structure-to-Structure} (for node based tasks), \textbf{Structure-to-Scalar} (for graph based tasks), or \textbf{Non-isomorphic}.
+
+The main properties of models for graphs are:
+\begin{itemize}
+    \item Support of different graph structures, as well as flexible representations of global, node, and edge attributes that can be customized according to the specific task at hand;
+    \item Handling of non-euclidean geometry;
+    \item Modularity and compositionality, since they can learn independent mechanisms that can be reused in several parts of the graph;
+    \item Cross-modality, as they learn how to combine structured and unstructured data sources;
+    \item Multiscale integration of the data, using different levels of complexity for granular data.
+\end{itemize}
+
+TODO
+
+\section{Deep Graph Networks}
+
+Deep Graph Networks are based on the concept of \textbf{message passing}. Each node in the graph computes a ``message'' for each of its neighbors, obtained as a function of the node label, the neighbors, and the edge between them. Each node then aggregates the nodes it receives, using a permutation-invariant function (i.e., it doesn't matter in which order the messages are received). This function is usually a sum or average. Finally, the nodes update their attributes as a function of their current attribute and the aggregated messages, and combine them with the free parameters. After this message passing phase, an output is emitted for either each node or the whole graph, again using a permutation-invariant function that aggregates node representation, called \textbf{global pooling}. The embeddings $h_v^{(l)}$ of each node $v$ at layer (iteration) $l$ are calculated as:
+\begin{equation*}
+    h_v^{(l)} = AGG_{W^{(l)}}(x_v, h_v^{(l-1)}, \{h_u^{(l-1) : u \in N_v}) \,, l = 1, \dots , L
+\end{equation*}
+where $N$ is the neighborhood of $v$, calculated according to the adjacency matrix of the graph. If this computation is applied to each node of the graph, we obtain the equivalent of a parallel, unordered visit of the graph at each iteration $l$.
+
+A convolutional technique used for Deep Learning on graphs is \textbf{layering}. The idea is that mutual dependencies between nodes are managed architecturally through different layers; instead of iterating at the same layer, each vertex/node can take the context of other vertices/nodes computed in the previous layers, progressively accessing the whole graph/network. CNNs cannot be immediately applied to graphs. In data that can be represented by a 2D grid (such as images), the CNN kernel can be applied to the grid, calculating the average of the cell values in the neighboring window; the neighbors of a vertex are ordered, and have fixed size. With graphs, the neighbors are unordered and variable in size, so the receptive field must be constrained to the neighbors, exploiting weight sharing as permutation-invariant so that it is not affected by the ordering of the nodes.
+
+Deep Graph Networks are inherently deep: the process is not local, because each node receives and spreads information across the whole graph. Each message passing iteration $l$ is a different layer of the network, and the context of a given node is obtained by composing the information at all layers. The receptive field is incrementally extended when the number of layers is increased, so the depth of the network is functional to the context growth. By training the model, we learn how to represent the graph.
+
+For the recursive approaches (Graph Neural Networks and Graph Echo State Networks), the diffusion process is similar, but $l$ is the number of message passing iterations on the same layer (or, seen from a different perspective, using different layers with shared weights among layers). In GNN and GESN cycles are allowed in state computation, and the state is computed iterating the state transition function until it converges.
+
+Some issues that affect GNNs are:
+\begin{itemize}
+    \item \textbf{Over-smoothing}: a phenomenon in which interacting nodes converge to indistinguishable representations as the number of GNN layers increase. This is typically caused by having a number of layers much higher than the problem radius (as in, the furthest distance a message has to travel in the graph);
+    
+    \item \textbf{Over-squashing}: similar to over-smoothing, a phenomenon in which an exponentially growing amount of information is squashed into a fixed size vector (the aggregations computed at each node). It's caused by the layer composition of the network itself.
+
+    \item \textbf{Heterophilic graphs}: as opposed to homophilic graphs, where nodes in the same neighborhood share the same class, heterophilic graphs contain nodes with the same class that are further apart. Predictions that rely on a node's neighbors can be misleading. The heterophily of a graph is calculated as:
+    \begin{equation*}
+        h_G = \dfrac{\#intraclass\;edges}{\#edges}
+    \end{equation*}
+\end{itemize}
+
