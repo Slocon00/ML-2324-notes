@@ -13,9 +13,7 @@ The expected error of the model at a point $x$ can be decomposed as:
     \item \textbf{Noise}: it's a random error included in a label in the training set, caused by imperfect measurements. It's irreducible, since it does not depend on the model.
 \end{itemize}
 
-Assume we have a regression task, where the target variable is $y$ and we use the squared error loss $L_2$. Our training set is TR = $< X, y >$, where $y = f(x) + \epsilon$, and $\epsilon$ is Gaussian noise with 0 mean and standard deviation $\sigma$.
-
-We fit a linear hypothesis $h(x) = wx + w_0$ to minimize the SSE over the training data. We will have a systematic prediction error, since the model is not flexible enough to approximate certain target functions (e.g. second degree functions). Also, depending on the dataset, the $w$ parameters will be calculated differently.
+Assume we have a regression task, where the target variable is $y$ and we use the squared error loss $L_2$. Our training set is TR = $< x, y >$, where $y = f(x) + \epsilon$, and $\epsilon$ is Gaussian noise with 0 mean and standard deviation $\sigma$. We fit a linear hypothesis $h(x) = w_1x + w_0$ to minimize the SSE over the training data. We will have a systematic prediction error, since the model is not flexible enough to approximate certain target functions (e.g. second degree functions). Also, depending on the dataset, the $w$ parameters will be calculated differently.
 
 So, given a new data point $x$, what is the expected prediction error? Assume that all the data points are drawn from a set of independent and identically distributed variables with the same probability distribution $P$. The goal is to compute, for any new $x$:
 \begin{equation*}
@@ -23,7 +21,7 @@ So, given a new data point $x$, what is the expected prediction error? Assume th
 \end{equation*}
 where $y$ is the value of $x$ that can be found in a dataset, and the expectation is over all training sets drawn according to $P$.
 
-Let $Z$ be a random variable with possible values $z_i, \, i = 1 \dots l$ and probability sitribution $P(Z)$. Its \textbf{expected value (mean)} is:
+Let $Z$ be a random variable with possible values $z_i, \, i = 1 \dots l$ and probability distribution $P(Z)$. Its \textbf{expected value (mean)} is:
 \begin{equation*}
     \Bar{Z} = E_p[Z] = \sum_{i=1}^l z_iP(z_i)
 \end{equation*}

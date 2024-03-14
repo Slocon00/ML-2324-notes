@@ -47,7 +47,7 @@ Multiple perceptrons can be composed and connected to build a network. This is c
 
 McCulloch and Pitts proposed a neural network model in 1943. In this model, each neuron is in one of two possible states: firing (1), or not firing (0). All synapses (connections) are equivalent and characterized by a weight $w_i$ which is positive for ``excitatory'' connections, and negative for ``inhibitory'' connections. A neuron $i$ becomes active when the sum of the connections coming from other active neurons and the bias is larger than 0. Both inputs and outputs are binary, so it can implement binary classification tasks.
 
-This model essentially describes neurons as perceptrons. The following pictures illustrate how this model can be used to represent boolean functions AND and OR by using a single neuron. Each neuron has two inputs, plus a bias ($w_0$). Both problems are linearly separable, so if the inputs are represented graphically on a plane, we can draw a single line (described by the net function) that separates all inputs that produce a 0 from all the ones that produce a 1.
+The following pictures illustrate how this model can be used to represent boolean functions AND and OR by using a single neuron. Each neuron has two inputs, plus a bias ($w_0$). Both problems are linearly separable, so if the inputs are represented graphically on a plane, we can draw a single line (described by the net function) that separates all inputs that produce a 0 from all the ones that produce a 1.
 
 \begin{figure}[h]
     \centering
@@ -77,7 +77,7 @@ There's two kinds of learning algorithms:
 \begin{itemize}
     \item \textbf{Adaline (Adaptive Linear Neuron)}: linear unit during training, can use LMS with either SVD or gradient descent algorithm. This approach an be generalized to multi-level perceptron NNs.
 
-    \item \textbf{Perceptron}: non-linear unit during training, with hard limit on the threshold activation function. Can only be used for classification.
+    \item \textbf{Perceptron}: non-linear unit during training, with hard limit or threshold activation function. Can only be used for classification.
 \end{itemize}
 
 \subsection{Perceptron Learning Algorithm}
@@ -122,7 +122,7 @@ Let us define $x_i' = (d_ix_i)$; then $w^*$ is a solution iff $w^*$ is a solutio
 \begin{equation*}
     w(q) = \sum_{j=1}^q x_{(i_j)} \, ,
 \end{equation*}
-because $w(q) = w(q-1) + x_{i_q}$ according to the update rule used, where $x_{i_j}$ is the vector containing all misclassified patterns for each step $j$ up until the $q^{th}$. Then, we can define the upper and lower bounds for $\|w(q)\|^2$:
+because $w(q) = w(q-1) + x_{i_q}$ according to the update rule used, where $x_{i_j}$ contains the pattern misclassified at the step $j$. Then, we can define the upper and lower bounds for $\|w(q)\|^2$:
 
 \begin{itemize}
     \item the lower bound is given by:
@@ -200,7 +200,7 @@ As seen before, the possible activation functions can be a linear function, a th
 The derivative of the identity function is 1. The derivative of the threshold function is not defined, which is why it's not used in LMS. As for sigmoid functions:
 
 \begin{equation*}
-    \dfrac{df_{\sigma}(x)}{dx} = f_{\sigma}(1-f_{\sigma}(x)) 
+    \dfrac{df_{\sigma}(x)}{dx} = f_{\sigma}(x)(1-f_{\sigma}(x)) 
 \end{equation*}
 
 \begin{equation*}

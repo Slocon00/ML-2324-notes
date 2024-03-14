@@ -37,7 +37,7 @@ thus, $r = \dfrac{g(x)}{\|w_o\|}$.
 Consider the distance between the hyperplane and a positive support vector $x^{(s)}$, then $r$ is calculated as:
 
 \begin{equation*}
-    r = \dfrac{g(x^(s))}{\|w_o\|} = \dfrac{1}{\|w_o\|} = \dfrac{\rho}{2} \, ,
+    r = \dfrac{g(x^{(s)})}{\|w_o\|} = \dfrac{1}{\|w_o\|} = \dfrac{\rho}{2} \, ,
 \end{equation*}
 therefore, $\rho = \dfrac{2}{\|w_o\|}$.
 
@@ -306,7 +306,7 @@ satisfying the following constraints
 \BoxDef{Quadratic optimization problem fr regression (dual form)}{
 Given the training set TR = $<x_i,d_i>$, find the optimal values of $\alpha_i$ and $\alpha'$ which maximize
 \begin{equation*}
-    Q(\alpha, \alpha') = \sum_{i=1}^N d_i(\alpha_i - \alpha_i') - \epsilon \sum_{i=1}^N \alpha_i + \alpha' - \dfrac{1}{2}\sum_{i,j=1}^N (\alpha_i - \alpha_i')(\alpha_j - \alpha_j')k(x, x_i)
+    Q(\alpha, \alpha') = \sum_{i=1}^N d_i(\alpha_i - \alpha_i') - \epsilon \sum_{i=1}^N \alpha_i + \alpha_i' - \dfrac{1}{2}\sum_{i,j=1}^N (\alpha_i - \alpha_i')(\alpha_j - \alpha_j')k(x, x_i)
 \end{equation*}
 satisfying the following constraints
 \begin{gather*}
