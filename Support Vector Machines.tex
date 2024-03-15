@@ -11,13 +11,13 @@ Assume a classification task. Given a training set $TR = <x_i,d_i>, \, i=1 \dots
     w^T x_i + b < 0 \text{ for } d_i = -1
 \end{gather*}
 
-$g(x) = w^T x + b$ is called the \textbf{discriminant function}, and $h(x) = sign(g(x))$ is the hypothesis. Note that here the bias is referred to as $b$ instead of $w_0$. To find the hyperplane that separates all the points, instead of simply minimizing the empirical risk, the SVM minimizes the expected generalization error by finding the separator that is farthest away from all the examples in the dataset. It also establishes a margin ($\rho$) around it, whose width is exactly twice the distance between the hyperplane and the closest data point(s). The optimal hyperplane is the one that maximizes this margin $\rho$: $w_o^Txv + b_o = 0$, where $\rho = 2 / \|w_o\|$.
+$g(x) = w^T x + b$ is called the \textbf{discriminant function}, and $h(x) = sign(g(x))$ is the hypothesis. Note that here the bias is referred to as $b$ instead of $w_0$. To find the hyperplane that separates all the points, instead of simply minimizing the empirical risk, the SVM minimizes the expected generalization error by finding the separator that is farthest away from all the examples in the dataset. It also establishes a margin ($\rho$) around it, whose width is exactly twice the distance between the hyperplane and the closest data point(s). The optimal hyperplane is the one that maximizes this margin $\rho$: $w_o^Tx + b_o = 0$, where $\rho = 2 / \|w_o\|$.
 
 The two terms $w$ and $b$ can be rescaled so that the closest points to the separating hyperplane satisfy $\|g(x)\| = 1$, so we can write:
 
 \begin{gather*}
     w^T x_i + b \geq 1 \text{ for } d_i = +1 \\
-    w^T x_i + b < -1 \text{ for } d_i = -1 \, ,
+    w^T x_i + b \leq -1 \text{ for } d_i = -1 \, ,
 \end{gather*}
 or, in a compact form,
 \begin{gather*}

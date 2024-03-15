@@ -6,7 +6,7 @@ Convolutional Neural Networks are a specialized kind of neural network for proce
 \begin{equation*}
     s(t) = (f * g)(t) \stackrel{def}{=} \int_{-\infty}^{\infty} f(\tau)g(t - \tau) d \tau = \int_{-\infty}^{\infty} f(t - \tau)g(\tau) d\tau \,,
 \end{equation*}
-The idea behind this operator is that we want to calculate the average of $f$ weighted by another function $g$ moved over time (``sliding''), calculated for a certain $\tau$. In convolutional network terminology, the first argument (here, $f$) is referred to as the \textbf{input}, and the second argument ($g$) as the \textbf{kernel}. The output is called \textbf{feature map}.
+The idea behind this operator is that we want to calculate the average of $f$ weighted by another function $g$ moved over time (``sliding''), calculated for a certain $t$. In convolutional network terminology, the first argument (here, $f$) is referred to as the \textbf{input}, and the second argument ($g$) as the \textbf{kernel}. The output is called \textbf{feature map}.
 
 This operator can be applied to neural networks as well. Consider a simple network with one hidden layer:
 \begin{figure}[h]
@@ -24,7 +24,7 @@ Discrete convolution can be seen as a multiplication by a matrix, with several e
 \end{equation*}
 or, as expressed by many libraries, as the \textbf{cross-correlation function}:
 \begin{equation*}
-    S(i,j) = (I*K)(i,j) = \sum_m \sum_n I(i+m,j+n)K(i, j) \,.
+    S(i,j) = (I*K)(i,j) = \sum_m \sum_n I(i+m,j+n)K(m, n) \,.
 \end{equation*}
 
 The example below shows a 2D image with 25 pixels, and a 3x3 kernel (unit local receptive field) with a stride equal to 1 (i.e., the kernel moves across the image 1 pixel at a time; by choosing the stride we choose the size of the feature map). The image also has padding added to its edge.
@@ -176,7 +176,7 @@ As opposed to \textbf{symbolic representation}, in which each input corresponds 
         Kiwi & 0 & 0 & 0 & 1 \\
         \hline
     \end{tabular}
-    \caption{Distributed representation on the left, symbolic representation on the right.}
+    \caption{Distributed representation on the top, symbolic representation on the bottom.}
 \end{table}
 
 In distributed representation, values assigned to attributes can also be real-valued. By using this representation, we can calculate similarity between two different concepts (inputs); in symbolic representation, the distance between two inputs is always $\sqrt{2}$.
