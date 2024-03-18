@@ -57,7 +57,7 @@ The task defines the purpose of the application: what information do we want to 
 \begin{itemize}
     \item \textbf{Given}: a \textbf{training set (TR)} consisting of training examples \bm{$<input,output>$} = \bm{$<x,d>$} (where $d$ is the \textbf{target value}, a categorical or numerical \textbf{label}) for an unknown function \bm{$f$} (called \textbf{target function}).
     
-    \item \textbf{Find}: a "good" approximation of $f$, called \textbf{hypothesis} \bm{$h$}, that can be used on unseen data to predict its value according to $f$ (= is able to \textbf{generalize}).
+    \item \textbf{Find}: a ``good'' approximation of $f$, called \textbf{hypothesis} \bm{$h$}, that can be used on unseen data to predict its value according to $f$ (= is able to \textbf{generalize}).
 \end{itemize}
 }
 \textbf{Unsupervised learning} is defined the same as the above, but the input data is a TR of unlabeled data.
@@ -76,7 +76,7 @@ These are the two most common supervised tasks. Some other tasks will be seen la
 
 \subsection{Model}
 
-A model describes the relationships among the data by using a "language" (numerical, symbolic,...). The model also defines the set of function the learning machine can implement: the \textbf{hypotheses space H}. 
+A model describes the relationships among the data by using a ``language'' (numerical, symbolic,...). The model also defines the set of function the learning machine can implement: the \textbf{hypotheses space H}. 
 
 Many models exist as of today: linear models, symbolic rules, probabilistic models, etc. Why so many? Because \href{https://en.wikipedia.org/wiki/No_free_lunch_theorem}{\textit{there is no free lunch}}: each model is effective and efficient for some problems and not others, has different levels of flexibility, and has different ways to control its complexity.
 
@@ -109,7 +109,7 @@ Many algorithms exist that can perform a complete search in the hypotheses space
 The other approach is to instead use a language capable of expressing all possible hypotheses, and introduce a search bias, using an incomplete search strategy. 
 
 \BoxDef{Loss and error}{
-In order to measure the "goodness" of an hypothesis $h$, an inner measure is used, called the \textbf{loss function (or loss measure)}: \bm{$L(h(x),d)$}. The expected value of $L$ is called the \text{error} relative to $h$.
+In order to measure the ``goodness'' of an hypothesis $h$, an inner measure is used, called the \textbf{loss function (or loss measure)}: \bm{$L(h(x),d)$}. The expected value of $L$ is called the \text{error} relative to $h$.
 }
 The loss function and the error can be calculated in any different ways depending on tasks. The following list presents some commonly used loss and error functions (``$w$'' in the error function refers to the vector of parameters that identify that specific $h$).
 
@@ -212,7 +212,7 @@ Validation takes place after model training, which determines the weight paramet
 \begin{itemize}
     \item \textbf{Model selection}: estimating the generalization error of different models and choosing the best one (this includes searching for the best hyper-parameters of the model) $\xrightarrow{}$ it returns a model
 
-    \item \textbf{Model assessment}: once a model has been chosen and both parameters and hyper-parameters have been adjusted, evaluating its generalization error on new test data as a way to measure its "quality" $\xrightarrow{}$ it returns an estimation
+    \item \textbf{Model assessment}: once a model has been chosen and both parameters and hyper-parameters have been adjusted, evaluating its generalization error on new test data as a way to measure its ``quality'' $\xrightarrow{}$ it returns an estimation
 \end{itemize}
 
 Among the different techniques, two simple ones are hold-out cross validation and k-fold cross validation.

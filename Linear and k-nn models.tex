@@ -73,7 +73,7 @@ The first step is redefining the learning problem and the loss. Assuming a class
 \end{itemize}
 Let's assume error is being calculated by using least squares (as for the regression), so $E(w) \propto \sum_{p=1}^l (y_p - w^Tx_p)^2$.
 
-The issue with trying to minimize the expected loss is that using a piecewise constant function to calculate it's value can make it a difficult problem, since the function is not differentiable. The solution is to "soften" the loss function by using a smooth, differentiable function instead.
+The issue with trying to minimize the expected loss is that using a piecewise constant function to calculate it's value can make it a difficult problem, since the function is not differentiable. The solution is to ``soften'' the loss function by using a smooth, differentiable function instead.
 
 The problem can be reformulated as:
 
@@ -91,7 +91,7 @@ Since this (differentiable) error function is quadratic, the minimum error alway
 
 \begin{equation*}
 \begin{gathered}
-    \dfrac{\partial E(w)}{\partial w_j} = \dfrac{\partial \sum_{p=1}^l (y_p - x_p^Tw)^2}{\partial w_j} = 2\sum_{p=1}^l (y_p - x_p^Tw) \cdot \dfrac{\partial (y_p - x_p^Tw)}{w_j} = \\ 2\sum_{p=1}^l (y_p - x_p^Tw) \cdot (\dfrac{\partial y_p}{\partial w_j} - \dfrac{\partial x_{p,1}w_1}{\partial w_j} - \dfrac{\partial x_{p,2}w_2}{\partial w_j} - \dots - \dfrac{\partial x_{p,n}w_n}{\partial w_j}) = \\ \boxed{-2\sum_{p=1}^l (y_p - x_p^Tw)^2 \cdot x_{p,j}}
+    \dfrac{\partial E(w)}{\partial w_j} = \dfrac{\partial \sum_{p=1}^l (y_p - x_p^Tw)^2}{\partial w_j} = 2\sum_{p=1}^l (y_p - x_p^Tw) \cdot \dfrac{\partial (y_p - x_p^Tw)}{w_j} = \\ 2\sum_{p=1}^l (y_p - x_p^Tw) \cdot (\dfrac{\partial y_p}{\partial w_j} - \dfrac{\partial x_{p,1}w_1}{\partial w_j} - \dfrac{\partial x_{p,2}w_2}{\partial w_j} - \dots - \dfrac{\partial x_{p,n}w_n}{\partial w_j}) = \\ \boxed{-2\sum_{p=1}^l (y_p - x_p^Tw) \cdot x_{p,j}}
 \end{gathered}
 \end{equation*}
 
@@ -150,7 +150,7 @@ So, for each iteration, the amount $w$ should be changed with is calculated as:
     \end{bmatrix}
 \end{equation*}
 
-Each new value of $w$ will be calculated as: $w_{new} = w + \eta*\Delta w$, where $\eta$ is the \textbf{learning rate}: the "step size" that controls the speed of the gradient descent. The algorithm is the following:
+Each new value of $w$ will be calculated as: $w_{new} = w + \eta*\Delta w$, where $\eta$ is the \textbf{learning rate}: the ``step size'' that controls the speed of the gradient descent. The algorithm is the following:
 
 \begin{enumerate}
     \item Start with $w_{initial}$ (small), fix value of $\eta \in [0,1]$
@@ -163,7 +163,7 @@ Each new value of $w$ will be calculated as: $w_{new} = w + \eta*\Delta w$, wher
 \end{enumerate}
 To use least mean squares, divide $\Delta w$ by $l$.
 
-This way of calculating $w$ is called an \textbf{error correction rule} (also called \textbf{delta rule} since it refers to $\delta_p = y_p - x_p^Tw$), since it changes the value of $w$ proportionally to the error to "correct" it:
+This way of calculating $w$ is called an \textbf{error correction rule} (also called \textbf{delta rule} since it refers to $\delta_p = y_p - x_p^Tw$), since it changes the value of $w$ proportionally to the error to ``correct'' it:
 
 \begin{itemize}
     \item \bm{$(input_j > 0, error > 0)$} $\rightarrow$ $\Delta w$ is \textbf{+} $\rightarrow$ $w_j$ must be increased $\rightarrow$ increment output $\rightarrow$ \textbf{less error}
@@ -178,7 +178,7 @@ This way of calculating $w$ is called an \textbf{error correction rule} (also ca
 This is a simple and effective local search approach to LMS, since it allows us to search through an infinite hypothesis space, and can be applied to models other than linear ones; however, it's not terribly efficient.
 
 \subsubsection{Batch and On-line (stochastic) Gradient Descent}
-The \textbf{batch} version of the algorithm, the gradient is calculated as the sum over all $l$ patterns, which provide a more "precise" evaluation off the gradient over the data-set. After the sum, the weights are updated.
+The \textbf{batch} version of the algorithm, the gradient is calculated as the sum over all $l$ patterns, which provide a more ``precise'' evaluation off the gradient over the data-set. After the sum, the weights are updated.
 
 The \textbf{on-line} version upgrades the weights with the error computed for each pattern; so, first the weights are updated calculating the error for the $1^{st}$ pattern; those weights are used to calculate the error on the second pattern, updating the weights again; the new weights are then used to calculate the error on the third pattern, and so on. This method can be faster, but needs a smaller $\eta$.
 
@@ -206,13 +206,13 @@ This transformation is done by using the \textbf{linear basis expansion (LBE)}:
 \begin{equation*}
     h_w(x) = \sum_{k=0}^K w_k\phi_k(x)
 \end{equation*}
-where each $\phi_k()$ is a function that "transforms" the input; in the previous example, $\phi_0(x)= x^0$, $\phi_1(x)= x^1$, $\phi_2(x)= x^2$, and so on.
+where each $\phi_k()$ is a function that ``transforms'' the input; in the previous example, $\phi_0(x)= x^0$, $\phi_1(x)= x^1$, $\phi_2(x)= x^2$, and so on.
 
 Typically, the number of parameters $K$ is greater than $n$.
 The model is still linear in the parameters (in $\phi$, not in $x$), so we can still use the same learning algorithm as before, both for regression and classification (by applying the sign function).
 
 \subsubsection{Choosing Phi}
-This type of approach is called a "dictionary" approach, since it constructs the linear base expansion out of the function. Using this method can model more complicated relationships (non-linear) since it's more expressive; on the other hand, there's a high risk of overfitting, so we need methods to control the complexity of the model.
+This type of approach is called a ``dictionary'' approach, since it constructs the linear base expansion out of the function. Using this method can model more complicated relationships (non-linear) since it's more expressive; on the other hand, there's a high risk of overfitting, so we need methods to control the complexity of the model.
 
 \subsubsection{Tikhonov Regularization}
 Controlling the complexity can be done in many different ways. One of them is called \textbf{ridge regression (or Tikhonov regularization)}. This method involves adding constraints to the sum of $|w_j|$, penalizing models with high values of $|w|$; i.e., favoring models that use less terms by setting most of the weights to 0 (which results in a simpler model). The loss is calculated as:

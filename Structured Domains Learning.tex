@@ -23,7 +23,7 @@ TODO
 
 Deep Graph Networks are based on the concept of \textbf{message passing}. Each node in the graph computes a ``message'' for each of its neighbors, obtained as a function of the node label, the neighbors, and the edge between them. Each node then aggregates the nodes it receives, using a permutation-invariant function (i.e., it doesn't matter in which order the messages are received). This function is usually a sum or average. Finally, the nodes update their attributes as a function of their current attribute and the aggregated messages, and combine them with the free parameters. After this message passing phase, an output is emitted for either each node or the whole graph, again using a permutation-invariant function that aggregates node representation, called \textbf{global pooling}. The embeddings $h_v^{(l)}$ of each node $v$ at layer (iteration) $l$ are calculated as:
 \begin{equation*}
-    h_v^{(l)} = AGG_{W^{(l)}}(x_v, h_v^{(l-1)}, \{h_u^{(l-1) : u \in N_v}) \,, l = 1, \dots , L
+    h_v^{(l)} = AGG_{W^{(l)}}(x_v, h_v^{(l-1)}, \{h_u^{(l-1)} : u \in N_v\}) \,, l = 1, \dots , L
 \end{equation*}
 where $N$ is the neighborhood of $v$, calculated according to the adjacency matrix of the graph. If this computation is applied to each node of the graph, we obtain the equivalent of a parallel, unordered visit of the graph at each iteration $l$.
 
