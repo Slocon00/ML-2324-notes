@@ -5,7 +5,7 @@ When a model is being trained, we're looking at the best solution, i.e., the bes
 Assume we have only one hyperparameter $\theta$ that varies the model complexity, and we want to find the ``best'' value of it. The estimation of the error can be approximated, either analytically (e.g., AIC, BIC for linear models, Minimum Description Length, Structural Risk Minimization and so on), or by resampling, so via \textbf{cross-validation} or bootstrap.\\
 Remember the distinction between model selection and model assessment:
 \begin{itemize}
-    \item \textbf{Model selection} estimates the performance of different models in order to select the one the generalizes the best; this phase returns a model;
+    \item \textbf{Model selection} estimates the performance of different models in order to select the one that generalizes the best; this phase returns a model;
 
     \item \textbf{Model assessment}: having chosen a final model, it estimates its prediction error/risk by using unseen data (the test set), and returns an estimation value.
 \end{itemize}
@@ -77,7 +77,6 @@ The function $\epsilon()$ can be calculated in different ways depending on the t
 SRM uses the VC-dimension as a control parameter to realize the best estimation of the generalization bound. Assume a nested structure of $n$ models/hypotheses space, such that: 
 
 \begin{gather*}
-    H_1 \subseteq H_2 \subseteq \dots \subseteq H_n \\
     VC(H_1) \leq VC(H_2) \leq \dots \leq VC(H_n)
 \end{gather*}
 

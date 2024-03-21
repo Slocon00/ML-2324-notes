@@ -321,7 +321,7 @@ The K-NN classifier approximates this solution, except that the conditional prob
 
 \subsection{Cons of K-NN}
 \begin{enumerate}
-    \item \textbf{Scale changes affect the model}: the algorithm does not work as intended is the data is scaled (and thus distances are distorted); the data must be normalized first.
+    \item \textbf{Scale changes affect the model}: the algorithm does not work as intended if the data is scaled (and thus distances are distorted); the data must be normalized first.
 
     \item \textbf{High computational cost}: K-NN does not construct a single approximation function; instead, it constructs a new approximation for each input it receives, so the computational cost is completely deferred to the prediction phase. Other than being costly in terms of time (having to calculate distances every time a new input is presented), it's also costly in terms of space, since all the training data must be ready to be used for the prediction.
 
