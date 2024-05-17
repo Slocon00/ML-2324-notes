@@ -13,7 +13,7 @@ The gold rule is to keep separation between the goals, and for each goal to use 
 
 Let's see an example. Assume we have 20-30 examples, with 1000 input variables. The target (random) is 0/1. We select a model with a single input variable that guesses 100\% on any splitting of the data in TR/VL/TS. This means that we produced a model that apparently always finds the correct output... or does it? In reality, the true error estimation is 50\%; this is because the chosen variable just so happens to match the target values. But in a real application, the model is basically coin guessing the output. In summary, the error estimated on the training set (and validation set) is not a good estimation of the generalization error; we need a new set of unseen data to do so.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering\includegraphics[width=0.5\linewidth]{img/table_counterex.png}
 \end{figure}
 
@@ -53,12 +53,12 @@ If $VC(H) = p$, it means that there's at least an hypothesis in $H$ that shatter
 
 To make the concept clearer, consider an hypothesis space $H$ that is a set of lines ($h(x) = sign(wx + w_0) , \, x \in IR^2$). Each dichotomy is a different labeling of points as -1 or 1. This hypothesis space shatters some configurations of 3 points, such as the one shown in the figure below:
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.5\linewidth]{img/shattering_1.png} 
 \end{figure}
 but cannot shatter this one:
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.5\linewidth]{img/Shattering_2.png}
 \end{figure}\\
@@ -67,7 +67,7 @@ Still, its VC-dim is at least 3, since it can shatter at least the configuration
 VC-dim is not the number of free parameters, although it is related. There exists models with only one free parameter and infinite VC-dim, such as K-NN. However, for many reasonable hypothesis classes the VC-dimension is linear in the number of free parameters of the model. Once we determine the VC-dim, we can then estimate the risk by defining an upper bound:
 
 \begin{equation*}
-    R[h] \leq R_{emp}[h] + \epsilon (VC,N,\delta)
+    R[ht] \leq R_{emp}[ht] + \epsilon (VC,N,\delta)
 \end{equation*}
 
 The function $\epsilon()$ can be calculated in different ways depending on the task, class of functions, etc. This bound gives us a way to estimate the generalization error based only on training error and VC-dimensionality of $H$.

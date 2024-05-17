@@ -9,7 +9,7 @@ Convolutional Neural Networks are a specialized kind of neural network for proce
 The idea behind this operator is that we want to calculate the average of $f$ weighted by another function $g$ moved over time (``sliding''), calculated for a certain $t$. In convolutional network terminology, the first argument (here, $f$) is referred to as the \textbf{input}, and the second argument ($g$) as the \textbf{kernel}. The output is called \textbf{feature map}.
 
 This operator can be applied to neural networks as well. Consider a simple network with one hidden layer:
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.45\linewidth]{img/CNN_simple.png}
 \end{figure}
@@ -28,7 +28,7 @@ or, as expressed by many libraries, as the \textbf{cross-correlation function}:
 \end{equation*}
 
 The example below shows a 2D image with 25 pixels, and a 3x3 kernel (unit local receptive field) with a stride equal to 1 (i.e., the kernel moves across the image 1 pixel at a time; by choosing the stride we choose the size of the feature map). The image also has padding added to its edge.
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.6\linewidth]{img/CNN_2D.png} 
 \end{figure}
@@ -37,7 +37,7 @@ Once the kernel reaches the end of the first ``row'' of pixels, it restarts from
 
 The image below better shows the matrix multiplication interpretation of convolution; the image is 4x3 and the kernel is 2x2. The stride is again equal to 1.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.5\linewidth]{img/CNN_matrix.png}
 \end{figure}
@@ -88,7 +88,7 @@ An example of such function is the parity function: it returns 1 if there is an 
 gates, since we have to perform 1 OR and exactly $2^{N-1}$ ANDs.
 
 We can propose an alternative solution with a polynomial number of gates, by increasing the number of layers to $log(N)$. The solution for $N=8$ is shown below (in a simplified view where each XOR corresponds to 2 AND gates and 1 OR gate). In this solution, the number of gates is greatly reduced from $2^7 + 1 = 129$ to only $7 * 3 = 21$.
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.5\linewidth]{img/Circuit_deep.png}
 \end{figure}
@@ -153,7 +153,7 @@ In the past, pretraining acted as the start of Deep Learning. It can yield impro
 
 As opposed to \textbf{symbolic representation}, in which each input corresponds to an unique symbol, in \textbf{distributed representation} each input is represented by a set of elements that can be set separately from each other. As an example, consider a vector of $n$ binary features, which can take $2^n$ possible configurations, each corresponding to a different region in input space. This is a type of distributed representation. The same data can be represented via one-hot encoding: $n$ feature detectors, each corresponding to the detection of a certain input. Only $n$ configurations of the input space are possible. This is a type of symbolic representation. The two representations are visualized below.
 
-\begin{table}[h]
+\begin{table}[ht]
     \centering
     \begin{tabular}{|c|cccc|}
         \hline

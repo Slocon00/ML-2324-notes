@@ -26,7 +26,7 @@ where $f$ is the unit's \textbf{activator function}.
 
 Note that $w_{ij}$ is the weight of the input coming from the node $j$ and going into the node $i$; some books/libraries/simulators, etc. may use the opposite notation.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.5\linewidth]{img/Neuron.png}
 \end{figure}
@@ -49,7 +49,7 @@ McCulloch and Pitts proposed a neural network model in 1943. In this model, each
 
 The following pictures illustrate how this model can be used to represent boolean functions AND and OR by using a single neuron. Each neuron has two inputs, plus a bias ($w_0$). Both problems are linearly separable, so if the inputs are represented graphically on a plane, we can draw a single line (described by the net function) that separates all inputs that produce a 0 from all the ones that produce a 1.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.5\linewidth]{img/boolean perceptron.png}
 \end{figure}
@@ -65,7 +65,7 @@ then we have:
 \end{equation*}
 So the XOR operation is moved to a new space that represents the problem as linearly separable:
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.5\linewidth]{img/xor perceptron.png}
 \end{figure}
@@ -349,12 +349,12 @@ In practice, the main basic approaches are more that enough if applied correctly
 
 An higher value of $\eta$ causes the descent to be faster but more unstable; a lower value of $\eta$ causes the descent to be slower but more stable. A way to monitor the behavior of the model (and adjust the learning rate as desired) is to plot the \textbf{learning curve}, which is obtained by plotting the error against the number of epochs. Depending on the value of $\eta$, the curve may have a different appearance.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.5\linewidth]{img/Learning curve and eta.png}
 \end{figure}
 The green line may appear smooth, but it's actually irregular if we zoom in:
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.5\linewidth]{img/immagine.png}
 \end{figure}
